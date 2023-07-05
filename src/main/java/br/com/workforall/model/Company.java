@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Company")
 public class Company {
     @Id
-    Long id;
+    String id;
 
     String name;
 
