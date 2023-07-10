@@ -31,12 +31,22 @@ public class CompanyController {
         return companyRepository.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> postCompany(@RequestBody @Valid CompanyDto companyDto) {
         try {
             Company company = companyService.processCompanyRegister(companyDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(company);
         }catch (RegisterException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCompany(@RequestBody @Valid CompanyDto companyDto) {
+        try {
+            Company company = companyService.processUpdateCompany(companyDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(company);
+        }catch (LoginException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

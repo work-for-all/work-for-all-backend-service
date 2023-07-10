@@ -15,6 +15,7 @@ public class CorsConfig implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }

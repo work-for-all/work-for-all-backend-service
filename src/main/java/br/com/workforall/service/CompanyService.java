@@ -58,4 +58,13 @@ public class CompanyService {
             throw new LoginException("Senha incorreta!");
         }
     }
+
+    public Company processUpdateCompany(CompanyDto companyDto) {
+        Optional<Company> companyOptional = companyRepository.findByCnpj(companyDto.getCnpj());
+        companyOptional.get().setName(companyDto.getName());
+        companyOptional.get().setName(companyDto.getName());
+        companyOptional.get().setName(companyDto.getName());
+        companyOptional.get().setName(companyDto.getName());
+        return companyRepository.save(companyOptional.get());
+    }
 }
