@@ -1,7 +1,7 @@
 package br.com.workforall.service;
 
 import br.com.workforall.exception.LoginException;
-import br.com.workforall.exception.RegisterException;
+import br.com.workforall.exception.CompanyNotFoundException;
 import br.com.workforall.model.Company;
 import br.com.workforall.model.CompanyAuthentication;
 import br.com.workforall.model.dto.CompanyDto;
@@ -24,12 +24,8 @@ public class CompanyService {
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public Company processCompanyRegister(CompanyDto companyDto) throws RegisterException {
-        Optional<Company> companyOptional = companyRepository.findByCnpj(companyDto.getCnpj());
-
-        if(companyOptional.isPresent()) {
-            throw new RegisterException("CNPJ já cadastrado!");
-        }
+    public Company processCompanyRegister(CompanyDto companyDto) throws CompanyNotFoundException {
+        findCompany(companyDto.getCnpj());
 
         Company company = modelMapper.map(companyDto, Company.class);
 
@@ -40,17 +36,13 @@ public class CompanyService {
         return company;
     }
 
-    public Optional<Company> processCompanyLogin(CompanyAuthentication companyAuthentication) throws LoginException {
-        Optional<Company> companyOptional = companyRepository.findByCnpj(companyAuthentication.getCnpj());
+    public Company processCompanyLogin(CompanyAuthentication companyAuthentication) throws LoginException, CompanyNotFoundException {
+        Company company = findCompany(companyAuthentication.getCnpj());
 
-        if(companyOptional.isPresent()) {
-            Company company = companyOptional.get();
-            String passwordEncodedDb = company.getPassword();
-            validatePasswordLogin(companyAuthentication.getPassword(), passwordEncodedDb);
-            return Optional.of(company);
-        }else {
-            throw new LoginException("CNPJ não cadastrado!");
-        }
+
+        String passwordEncodedDb = company.getPassword();
+        validatePasswordLogin(companyAuthentication.getPassword(), passwordEncodedDb);
+        return company;
     }
 
     public void validatePasswordLogin(String password, String passwordEncoded){
@@ -59,12 +51,25 @@ public class CompanyService {
         }
     }
 
-    public Company processUpdateCompany(CompanyDto companyDto) {
-        Optional<Company> companyOptional = companyRepository.findByCnpj(companyDto.getCnpj());
-        companyOptional.get().setName(companyDto.getName());
-        companyOptional.get().setName(companyDto.getName());
-        companyOptional.get().setName(companyDto.getName());
-        companyOptional.get().setName(companyDto.getName());
-        return companyRepository.save(companyOptional.get());
+    public Company processUpdateCompany(CompanyDto companyDto) throws CompanyNotFoundException {
+        Company company = findCompany(companyDto.getCnpj());
+
+        company.setName(companyDto.getName());
+        company.setDescription(companyDto.getDescription());
+        company.setSector(companyDto.getSector());
+        company.setSize(companyDto.getSize());
+        company.setType(companyDto.getType());
+        company.setSlogan(companyDto.getSlogan());
+        return companyRepository.save(company);
+    }
+
+    public Company findCompany(String cnpj) throws CompanyNotFoundException {
+        Optional<Company> companyOptional = companyRepository.findByCnpj(cnpj);
+
+        if(companyOptional.isPresent()) {
+            return companyOptional.get();
+        }else {
+            throw new CompanyNotFoundException("CNPJ não cadastrado!");
+        }
     }
 }
