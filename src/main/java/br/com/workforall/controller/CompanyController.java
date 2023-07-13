@@ -1,6 +1,6 @@
 package br.com.workforall.controller;
 
-import br.com.workforall.exception.LoginException;
+import br.com.workforall.exception.RegisterLoginException;
 import br.com.workforall.exception.CompanyNotFoundException;
 import br.com.workforall.model.Company;
 import br.com.workforall.model.CompanyAuthentication;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/companies")
@@ -56,17 +55,17 @@ public class CompanyController {
         try {
             Company company = companyService.processCompanyLogin(companyAuthentication);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(company);
-        }catch (LoginException e){
+        }catch (RegisterLoginException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<?> detailCompany(String cnpj) {
+    @GetMapping("/{cnpj}")
+    public ResponseEntity<?> detailCompany(@PathVariable String cnpj) {
         try {
             Company company = companyService.findCompany(cnpj);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(company);
-        }catch (LoginException e){
+        }catch (RegisterLoginException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

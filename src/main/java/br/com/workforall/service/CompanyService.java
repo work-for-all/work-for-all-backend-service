@@ -1,6 +1,6 @@
 package br.com.workforall.service;
 
-import br.com.workforall.exception.LoginException;
+import br.com.workforall.exception.RegisterLoginException;
 import br.com.workforall.exception.CompanyNotFoundException;
 import br.com.workforall.model.Company;
 import br.com.workforall.model.CompanyAuthentication;
@@ -25,7 +25,11 @@ public class CompanyService {
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public Company processCompanyRegister(CompanyDto companyDto) throws CompanyNotFoundException {
-        findCompany(companyDto.getCnpj());
+        Optional<Company> companyOptional = companyRepository.findByCnpj(companyDto.getCnpj());
+
+        if(companyOptional.isPresent()) {
+            throw new RegisterLoginException("CNPJ já cadastrado!");
+        }
 
         Company company = modelMapper.map(companyDto, Company.class);
 
@@ -36,7 +40,7 @@ public class CompanyService {
         return company;
     }
 
-    public Company processCompanyLogin(CompanyAuthentication companyAuthentication) throws LoginException, CompanyNotFoundException {
+    public Company processCompanyLogin(CompanyAuthentication companyAuthentication) throws RegisterLoginException, CompanyNotFoundException {
         Company company = findCompany(companyAuthentication.getCnpj());
 
 
@@ -47,7 +51,7 @@ public class CompanyService {
 
     public void validatePasswordLogin(String password, String passwordEncoded){
         if(!passwordEncoder.matches(password, passwordEncoded)) {
-            throw new LoginException("Senha incorreta!");
+            throw new RegisterLoginException("Senha incorreta!");
         }
     }
 
