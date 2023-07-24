@@ -1,7 +1,7 @@
 package br.com.workforall.controller;
 
-import br.com.workforall.exception.LoginException;
-import br.com.workforall.exception.RegisterException;
+import br.com.workforall.exception.RegisterLoginException;
+import br.com.workforall.exception.CompanyNotFoundException;
 import br.com.workforall.model.Company;
 import br.com.workforall.model.CompanyAuthentication;
 import br.com.workforall.model.dto.CompanyDto;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/companies")
@@ -31,12 +30,22 @@ public class CompanyController {
         return companyRepository.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> postCompany(@RequestBody @Valid CompanyDto companyDto) {
         try {
             Company company = companyService.processCompanyRegister(companyDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(company);
-        }catch (RegisterException e){
+        }catch (CompanyNotFoundException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCompany(@RequestBody @Valid CompanyDto companyDto) {
+        try {
+            Company company = companyService.processUpdateCompany(companyDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(company);
+        }catch (CompanyNotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -44,9 +53,19 @@ public class CompanyController {
     @PostMapping("/login")
     public ResponseEntity<?> loginCompany(@RequestBody @Valid CompanyAuthentication companyAuthentication) {
         try {
-            Optional<Company> company = companyService.processCompanyLogin(companyAuthentication);
+            Company company = companyService.processCompanyLogin(companyAuthentication);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(company);
-        }catch (LoginException e){
+        }catch (RegisterLoginException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{cnpj}")
+    public ResponseEntity<?> detailCompany(@PathVariable String cnpj) {
+        try {
+            Company company = companyService.findCompany(cnpj);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(company);
+        }catch (RegisterLoginException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
