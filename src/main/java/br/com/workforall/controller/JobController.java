@@ -29,6 +29,11 @@ public class JobController {
         return jobRepository.findAll();
     }
 
+    @GetMapping("/list/{cnpj}")
+    public List<Job> getJobs(@PathVariable String cnpj) {
+        return jobRepository.findByCnpj(cnpj);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> postCompany(@RequestBody @Valid JobDto jobDto) {
         try {
