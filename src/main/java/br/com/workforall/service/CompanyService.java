@@ -55,7 +55,7 @@ public class CompanyService {
         }
     }
 
-    public Company processUpdateCompany(CompanyDto companyDto) throws CompanyNotFoundException {
+    public Company processCompanyUpdate(CompanyDto companyDto) throws CompanyNotFoundException {
         Company company = findCompany(companyDto.getCnpj());
 
         company.setName(companyDto.getName());

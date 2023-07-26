@@ -2,7 +2,6 @@ package br.com.workforall.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -12,7 +11,6 @@ public class Job {
     @Id
     String id;
 
-    @Indexed(unique = true)
     String cnpj;
 
     String title;
@@ -42,4 +40,6 @@ public class Job {
     String requirements;
 
     String benefits;
+
+    String status;
 }

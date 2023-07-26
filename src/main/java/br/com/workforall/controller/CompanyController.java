@@ -43,7 +43,7 @@ public class CompanyController {
     @PutMapping("/update")
     public ResponseEntity<?> updateCompany(@RequestBody @Valid CompanyDto companyDto) {
         try {
-            Company company = companyService.processUpdateCompany(companyDto);
+            Company company = companyService.processCompanyUpdate(companyDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(company);
         }catch (CompanyNotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

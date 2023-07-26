@@ -1,7 +1,6 @@
 package br.com.workforall.controller;
 
-import br.com.workforall.exception.CompanyNotFoundException;
-import br.com.workforall.model.Company;
+import br.com.workforall.exception.JobBadRequestException;
 import br.com.workforall.model.Job;
 import br.com.workforall.model.dto.JobDto;
 import br.com.workforall.repository.JobRepository;
@@ -35,11 +34,31 @@ public class JobController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> postCompany(@RequestBody @Valid JobDto jobDto) {
+    public ResponseEntity<?> postJob(@RequestBody @Valid JobDto jobDto) {
         try {
             Job job = jobService.processJobRegister(jobDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(job);
-        }catch (CompanyNotFoundException e){
+        }catch (JobBadRequestException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update/{idVaga}")
+    public ResponseEntity<?> putJob(@PathVariable String idVaga, @RequestBody @Valid JobDto jobDto) {
+        try {
+            Job job = jobService.processJobUpdate(idVaga, jobDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(job);
+        }catch (JobBadRequestException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update/status/{idVaga}")
+    public ResponseEntity<?> putJobStatus(@PathVariable String idVaga) {
+        try {
+            Job job = jobService.processJobCloseStatus(idVaga);
+            return ResponseEntity.status(HttpStatus.CREATED).body(job);
+        }catch (JobBadRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
