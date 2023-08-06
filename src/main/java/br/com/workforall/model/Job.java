@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
+
 @Data
 @Document(collection = "Job")
 public class Job {
@@ -42,4 +44,6 @@ public class Job {
     String benefits;
 
     String status;
+
+    List<String> candidates;
 }
