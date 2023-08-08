@@ -62,7 +62,7 @@ public class JobService {
         Job job = jobOptional.get();
 
         List<String> listCandidates;
-        if(job.getCandidates().isEmpty()){
+        if(job.getCandidates() == null){
             listCandidates = new ArrayList<>();
         }else{
             listCandidates = job.getCandidates();
