@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/jobs")
@@ -30,8 +31,12 @@ public class JobController {
     }
 
     @GetMapping("/{idJob}")
-    public Job getJob(@PathVariable String idJob) {
-        return jobRepository.findById(idJob).get();
+    public ResponseEntity<?> getJob(@PathVariable String idJob) {
+        Optional<Job> jobOptional = jobRepository.findById(idJob);
+        if(jobOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.CREATED).body(jobOptional.get());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vaga não cadastrada!");
     }
 
     @GetMapping("/list/{cnpj}")
