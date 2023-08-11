@@ -3,11 +3,12 @@ package br.com.workforall.config;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
+@Configuration
 public class CorsConfig implements Filter {
 
     @Override
@@ -16,6 +17,7 @@ public class CorsConfig implements Filter {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Methods", "*");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }

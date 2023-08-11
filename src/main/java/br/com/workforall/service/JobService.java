@@ -3,11 +3,14 @@ package br.com.workforall.service;
 import br.com.workforall.exception.JobBadRequestException;
 import br.com.workforall.model.Job;
 import br.com.workforall.model.dto.JobDto;
+import br.com.workforall.model.dto.JobUserDto;
 import br.com.workforall.repository.JobRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,7 +24,7 @@ public class JobService {
 
     public Job processJobRegister(JobDto jobDto) {
         Job job = modelMapper.map(jobDto, Job.class);
-        job.setStatus("OPEN");
+        job.setStatus(true);
         jobRepository.save(job);
         return job;
     }
@@ -30,11 +33,11 @@ public class JobService {
         Optional<Job> jobOptional = jobRepository.findById(idVaga);
 
         if(jobOptional.isPresent()){
-            if(jobOptional.get().getStatus().equals("CLOSED")) throw new JobBadRequestException("Vaga Encerrada!");
+            if(!jobOptional.get().isStatus()) throw new JobBadRequestException("Vaga Encerrada!");
         }
         Job job = modelMapper.map(jobDto, Job.class);
         job.setId(idVaga);
-        job.setStatus("OPENED");
+        job.setStatus(true);
         jobRepository.save(job);
         return job;
     }
@@ -43,9 +46,37 @@ public class JobService {
         Optional<Job> job = jobRepository.findById(idVaga);
 
         if(job.isPresent()){
-            job.get().setStatus("CLOSED");
+            job.get().setStatus(false);
             return jobRepository.save(job.get());
         }
         return null;
+    }
+
+    public Job processJobAddCandidate(String idVaga, JobUserDto jobUserDto) {
+        Optional<Job> jobOptional = jobRepository.findById(idVaga);
+
+        if(jobOptional.isPresent()){
+            if(!jobOptional.get().isStatus()) throw new JobBadRequestException("Vaga encerrada!");
+        }
+
+        Job job = jobOptional.get();
+
+        List<String> listCandidates;
+        if(job.getCandidates() == null){
+            listCandidates = new ArrayList<>();
+        }else{
+            listCandidates = job.getCandidates();
+
+            for(String candidate : listCandidates){
+                if(candidate.equalsIgnoreCase(jobUserDto.getIdUser())){
+                    throw new JobBadRequestException("Candidatura já foi realizada!");
+                }
+            }
+        }
+        listCandidates.add(jobUserDto.getIdUser());
+        job.setCandidates(listCandidates);
+
+        jobRepository.save(job);
+        return job;
     }
 }

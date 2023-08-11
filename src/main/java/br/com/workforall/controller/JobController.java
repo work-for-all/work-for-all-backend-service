@@ -3,6 +3,7 @@ package br.com.workforall.controller;
 import br.com.workforall.exception.JobBadRequestException;
 import br.com.workforall.model.Job;
 import br.com.workforall.model.dto.JobDto;
+import br.com.workforall.model.dto.JobUserDto;
 import br.com.workforall.repository.JobRepository;
 import br.com.workforall.service.JobService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/jobs")
@@ -26,6 +28,15 @@ public class JobController {
     @GetMapping("/list")
     public List<Job> getJobs() {
         return jobRepository.findAll();
+    }
+
+    @GetMapping("/{idJob}")
+    public ResponseEntity<?> getJob(@PathVariable String idJob) {
+        Optional<Job> jobOptional = jobRepository.findById(idJob);
+        if(jobOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.CREATED).body(jobOptional.get());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vaga não cadastrada!");
     }
 
     @GetMapping("/list/{cnpj}")
@@ -57,6 +68,16 @@ public class JobController {
     public ResponseEntity<?> putJobStatus(@PathVariable String idVaga) {
         try {
             Job job = jobService.processJobCloseStatus(idVaga);
+            return ResponseEntity.status(HttpStatus.CREATED).body(job);
+        }catch (JobBadRequestException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update/candidate/{idVaga}")
+    public ResponseEntity<?> putCandidateInJob(@PathVariable String idVaga, @RequestBody JobUserDto jobUserDto) {
+        try {
+            Job job = jobService.processJobAddCandidate(idVaga, jobUserDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(job);
         }catch (JobBadRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
