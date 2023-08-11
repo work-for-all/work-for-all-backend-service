@@ -48,7 +48,7 @@ public class Job {
 
     String benefits;
 
-    String status;
+    boolean status;
 
     List<String> candidates;
 }

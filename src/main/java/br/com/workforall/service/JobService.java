@@ -24,7 +24,7 @@ public class JobService {
 
     public Job processJobRegister(JobDto jobDto) {
         Job job = modelMapper.map(jobDto, Job.class);
-        job.setStatus("OPEN");
+        job.setStatus(true);
         jobRepository.save(job);
         return job;
     }
@@ -33,11 +33,11 @@ public class JobService {
         Optional<Job> jobOptional = jobRepository.findById(idVaga);
 
         if(jobOptional.isPresent()){
-            if(jobOptional.get().getStatus().equals("CLOSED")) throw new JobBadRequestException("Vaga Encerrada!");
+            if(!jobOptional.get().isStatus()) throw new JobBadRequestException("Vaga Encerrada!");
         }
         Job job = modelMapper.map(jobDto, Job.class);
         job.setId(idVaga);
-        job.setStatus("OPENED");
+        job.setStatus(true);
         jobRepository.save(job);
         return job;
     }
@@ -46,7 +46,7 @@ public class JobService {
         Optional<Job> job = jobRepository.findById(idVaga);
 
         if(job.isPresent()){
-            job.get().setStatus("CLOSED");
+            job.get().setStatus(false);
             return jobRepository.save(job.get());
         }
         return null;
@@ -56,7 +56,7 @@ public class JobService {
         Optional<Job> jobOptional = jobRepository.findById(idVaga);
 
         if(jobOptional.isPresent()){
-            if(jobOptional.get().getStatus().equals("CLOSED")) throw new JobBadRequestException("Vaga encerrada!");
+            if(!jobOptional.get().isStatus()) throw new JobBadRequestException("Vaga encerrada!");
         }
 
         Job job = jobOptional.get();
