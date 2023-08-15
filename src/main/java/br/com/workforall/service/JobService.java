@@ -20,6 +20,9 @@ public class JobService {
     private JobRepository jobRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     public Job processJobRegister(JobDto jobDto) {
@@ -73,6 +76,8 @@ public class JobService {
                 }
             }
         }
+        userService.findUser(jobUserDto.getIdUser());
+
         listCandidates.add(jobUserDto.getIdUser());
         job.setCandidates(listCandidates);
 

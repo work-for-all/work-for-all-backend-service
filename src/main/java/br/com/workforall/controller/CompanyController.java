@@ -1,7 +1,7 @@
 package br.com.workforall.controller;
 
 import br.com.workforall.exception.RegisterLoginException;
-import br.com.workforall.exception.CompanyNotFoundException;
+import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.model.Company;
 import br.com.workforall.model.CompanyAuthentication;
 import br.com.workforall.model.dto.CompanyDto;
@@ -35,7 +35,7 @@ public class CompanyController {
         try {
             Company company = companyService.processCompanyRegister(companyDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(company);
-        }catch (CompanyNotFoundException e){
+        }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -45,7 +45,7 @@ public class CompanyController {
         try {
             Company company = companyService.processCompanyUpdate(companyDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(company);
-        }catch (CompanyNotFoundException e){
+        }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
