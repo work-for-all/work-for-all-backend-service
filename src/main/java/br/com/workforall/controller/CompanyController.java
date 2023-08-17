@@ -25,9 +25,14 @@ public class CompanyController {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @GetMapping("/quantity")
+    public ResponseEntity<?> getQuantityCompany(){
+        return ResponseEntity.status(HttpStatus.OK).body(companyService.findAllCompanies().size());
+    }
+
     @GetMapping("/list")
     public List<Company> getCompanies() {
-        return companyRepository.findAll();
+        return companyService.findAllCompanies();
     }
 
     @PostMapping("/register")
