@@ -69,7 +69,7 @@ public class CompanyController {
     public ResponseEntity<?> detailCompany(@PathVariable String cnpj) {
         try {
             Company company = companyService.findCompany(cnpj);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(company);
+            return ResponseEntity.status(HttpStatus.OK).body(company);
         }catch (RegisterLoginException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

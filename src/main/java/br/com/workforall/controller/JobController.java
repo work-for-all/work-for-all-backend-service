@@ -25,9 +25,14 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
+    @GetMapping("/quantity")
+    public ResponseEntity<?> getQuantityJobs() {
+        return ResponseEntity.status(HttpStatus.OK).body(jobService.findAllJobs().size());
+    }
+
     @GetMapping("/list")
-    public List<Job> getJobs() {
-        return jobRepository.findAll();
+    public ResponseEntity<?> getJobs() {
+        return ResponseEntity.status(HttpStatus.OK).body(jobService.findAllJobs());
     }
 
     @GetMapping("/{idJob}")
@@ -54,30 +59,30 @@ public class JobController {
         }
     }
 
-    @PutMapping("/update/{idVaga}")
-    public ResponseEntity<?> putJob(@PathVariable String idVaga, @RequestBody @Valid JobDto jobDto) {
+    @PutMapping("/update/{idJob}")
+    public ResponseEntity<?> putJob(@PathVariable String idJob, @RequestBody @Valid JobDto jobDto) {
         try {
-            Job job = jobService.processJobUpdate(idVaga, jobDto);
+            Job job = jobService.processJobUpdate(idJob, jobDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(job);
         }catch (JobBadRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PutMapping("/update/status/{idVaga}")
-    public ResponseEntity<?> putJobStatus(@PathVariable String idVaga) {
+    @PutMapping("/update/status/{idJob}")
+    public ResponseEntity<?> putJobStatus(@PathVariable String idJob) {
         try {
-            Job job = jobService.processJobCloseStatus(idVaga);
+            Job job = jobService.processJobCloseStatus(idJob);
             return ResponseEntity.status(HttpStatus.CREATED).body(job);
         }catch (JobBadRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PutMapping("/update/candidate/{idVaga}")
-    public ResponseEntity<?> putCandidateInJob(@PathVariable String idVaga, @RequestBody JobUserDto jobUserDto) {
+    @PutMapping("/update/candidate/{idJob}")
+    public ResponseEntity<?> putCandidateInJob(@PathVariable String idJob, @RequestBody JobUserDto jobUserDto) {
         try {
-            Job job = jobService.processJobAddCandidate(idVaga, jobUserDto);
+            Job job = jobService.processJobAddCandidate(idJob, jobUserDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(job);
         }catch (JobBadRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

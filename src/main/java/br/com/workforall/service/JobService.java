@@ -84,4 +84,8 @@ public class JobService {
         jobRepository.save(job);
         return job;
     }
+
+    public List<Job> findAllJobs(){
+        return jobRepository.findAll();
+    }
 }
