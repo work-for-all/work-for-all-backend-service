@@ -28,9 +28,8 @@ public class CompanyService {
     public Company processCompanyRegister(CompanyDto companyDto) throws EntityNotFoundException {
         Optional<Company> companyOptional = companyRepository.findByCnpj(companyDto.getCnpj());
 
-        if(companyOptional.isPresent()) {
+        if(companyOptional.isPresent())
             throw new RegisterLoginException("CNPJ já cadastrado!");
-        }
 
         Company company = modelMapper.map(companyDto, Company.class);
 
@@ -71,11 +70,9 @@ public class CompanyService {
     public Company findCompany(String cnpj) throws EntityNotFoundException {
         Optional<Company> companyOptional = companyRepository.findByCnpj(cnpj);
 
-        if(companyOptional.isPresent()) {
+        if(companyOptional.isPresent())
             return companyOptional.get();
-        }else {
-            throw new EntityNotFoundException("CNPJ não cadastrado!");
-        }
+        throw new EntityNotFoundException("CNPJ não cadastrado!");
     }
 
     public List<Company> findAllCompanies(){
