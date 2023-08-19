@@ -1,7 +1,7 @@
 package br.com.workforall.service;
 
 import br.com.workforall.exception.RegisterLoginException;
-import br.com.workforall.exception.CompanyNotFoundException;
+import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.model.Company;
 import br.com.workforall.model.CompanyAuthentication;
 import br.com.workforall.model.dto.CompanyDto;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,12 +25,11 @@ public class CompanyService {
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public Company processCompanyRegister(CompanyDto companyDto) throws CompanyNotFoundException {
+    public Company processCompanyRegister(CompanyDto companyDto) throws EntityNotFoundException {
         Optional<Company> companyOptional = companyRepository.findByCnpj(companyDto.getCnpj());
 
-        if(companyOptional.isPresent()) {
+        if(companyOptional.isPresent())
             throw new RegisterLoginException("CNPJ já cadastrado!");
-        }
 
         Company company = modelMapper.map(companyDto, Company.class);
 
@@ -40,7 +40,7 @@ public class CompanyService {
         return company;
     }
 
-    public Company processCompanyLogin(CompanyAuthentication companyAuthentication) throws RegisterLoginException, CompanyNotFoundException {
+    public Company processCompanyLogin(CompanyAuthentication companyAuthentication) throws RegisterLoginException, EntityNotFoundException {
         Company company = findCompany(companyAuthentication.getCnpj());
 
 
@@ -55,7 +55,7 @@ public class CompanyService {
         }
     }
 
-    public Company processCompanyUpdate(CompanyDto companyDto) throws CompanyNotFoundException {
+    public Company processCompanyUpdate(CompanyDto companyDto) throws EntityNotFoundException {
         Company company = findCompany(companyDto.getCnpj());
 
         company.setName(companyDto.getName());
@@ -67,13 +67,15 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public Company findCompany(String cnpj) throws CompanyNotFoundException {
+    public Company findCompany(String cnpj) throws EntityNotFoundException {
         Optional<Company> companyOptional = companyRepository.findByCnpj(cnpj);
 
-        if(companyOptional.isPresent()) {
+        if(companyOptional.isPresent())
             return companyOptional.get();
-        }else {
-            throw new CompanyNotFoundException("CNPJ não cadastrado!");
-        }
+        throw new EntityNotFoundException("CNPJ não cadastrado!");
+    }
+
+    public List<Company> findAllCompanies(){
+        return companyRepository.findAll();
     }
 }

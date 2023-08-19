@@ -1,7 +1,7 @@
 package br.com.workforall.controller;
 
 import br.com.workforall.exception.RegisterLoginException;
-import br.com.workforall.exception.CompanyNotFoundException;
+import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.model.Company;
 import br.com.workforall.model.CompanyAuthentication;
 import br.com.workforall.model.dto.CompanyDto;
@@ -25,9 +25,14 @@ public class CompanyController {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @GetMapping("/quantity")
+    public ResponseEntity<?> getQuantityCompany(){
+        return ResponseEntity.status(HttpStatus.OK).body(companyService.findAllCompanies().size());
+    }
+
     @GetMapping("/list")
     public List<Company> getCompanies() {
-        return companyRepository.findAll();
+        return companyService.findAllCompanies();
     }
 
     @PostMapping("/register")
@@ -35,7 +40,7 @@ public class CompanyController {
         try {
             Company company = companyService.processCompanyRegister(companyDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(company);
-        }catch (CompanyNotFoundException e){
+        }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -45,7 +50,7 @@ public class CompanyController {
         try {
             Company company = companyService.processCompanyUpdate(companyDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(company);
-        }catch (CompanyNotFoundException e){
+        }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -64,7 +69,7 @@ public class CompanyController {
     public ResponseEntity<?> detailCompany(@PathVariable String cnpj) {
         try {
             Company company = companyService.findCompany(cnpj);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(company);
+            return ResponseEntity.status(HttpStatus.OK).body(company);
         }catch (RegisterLoginException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

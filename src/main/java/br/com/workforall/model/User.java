@@ -32,5 +32,12 @@ public class User {
 
     String gender;
 
+    @JsonProperty("sexual_orientation")
+    String sexualOrientation;
 
+    String password;
+
+    String email;
+
+    String course;
 }
