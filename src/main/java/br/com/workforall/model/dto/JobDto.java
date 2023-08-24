@@ -34,4 +34,6 @@ public class JobDto {
     String requirements;
 
     String benefits;
+
+    String local;
 }

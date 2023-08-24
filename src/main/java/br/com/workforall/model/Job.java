@@ -51,4 +51,6 @@ public class Job {
     boolean status;
 
     List<String> candidates;
+
+    String local;
 }
