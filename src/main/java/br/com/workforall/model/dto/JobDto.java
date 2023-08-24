@@ -2,6 +2,7 @@ package br.com.workforall.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 public class JobDto {
@@ -36,4 +37,18 @@ public class JobDto {
     String benefits;
 
     String local;
+
+    boolean woman;
+
+    boolean transsexual;
+
+    @JsonProperty("black_or_indigenous")
+    boolean blackOrIndigenous;
+
+    boolean deficient;
+
+    @JsonProperty("fifty_years_or_more")
+    boolean fiftyYearsOrMore;
+
+    boolean immigrants;
 }
