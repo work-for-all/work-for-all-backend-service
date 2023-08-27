@@ -3,7 +3,7 @@ package br.com.workforall.service;
 import br.com.workforall.exception.RegisterLoginException;
 import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.model.Company;
-import br.com.workforall.model.CompanyAuthentication;
+import br.com.workforall.model.auth.CompanyAuthentication;
 import br.com.workforall.model.dto.CompanyDto;
 import br.com.workforall.repository.CompanyRepository;
 import org.modelmapper.ModelMapper;
@@ -43,16 +43,9 @@ public class CompanyService {
     public Company processCompanyLogin(CompanyAuthentication companyAuthentication) throws RegisterLoginException, EntityNotFoundException {
         Company company = findCompany(companyAuthentication.getCnpj());
 
-
         String passwordEncodedDb = company.getPassword();
-        validatePasswordLogin(companyAuthentication.getPassword(), passwordEncodedDb);
+        PasswordService.validatePasswordLogin(companyAuthentication.getPassword(), passwordEncodedDb);
         return company;
-    }
-
-    public void validatePasswordLogin(String password, String passwordEncoded){
-        if(!passwordEncoder.matches(password, passwordEncoded)) {
-            throw new RegisterLoginException("Senha incorreta!");
-        }
     }
 
     public Company processCompanyUpdate(CompanyDto companyDto) throws EntityNotFoundException {

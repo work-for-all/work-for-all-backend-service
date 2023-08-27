@@ -2,7 +2,9 @@ package br.com.workforall.controller;
 
 import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.exception.RegisterLoginException;
+import br.com.workforall.model.Company;
 import br.com.workforall.model.User;
+import br.com.workforall.model.auth.UserAuthentication;
 import br.com.workforall.model.dto.UserDto;
 import br.com.workforall.service.UserService;
 import jakarta.validation.Valid;
@@ -45,6 +47,16 @@ public class UserController {
             User user = userService.processUserRegister(userDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
         }catch (RegisterLoginException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody @Valid UserAuthentication userAuthentication) {
+        try {
+            User user = userService.proccessUserLogin(userAuthentication);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

@@ -3,6 +3,7 @@ package br.com.workforall.service;
 import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.exception.RegisterLoginException;
 import br.com.workforall.model.User;
+import br.com.workforall.model.auth.UserAuthentication;
 import br.com.workforall.model.dto.UserDto;
 import br.com.workforall.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -51,11 +52,19 @@ public class UserService {
         }
     }
 
-    public User findUserByEmail(String email){
+    public User findUserByEmail(String email) throws EntityNotFoundException{
         Optional<User> userOptional = userRepository.findByEmail(email);
 
         if(userOptional.isPresent())
             return userOptional.get();
-        throw new RegisterLoginException("E-mail já cadastrado!");
+        throw new EntityNotFoundException("E-mail não cadastrado!");
+    }
+
+    public User proccessUserLogin(UserAuthentication userAuthentication) throws EntityNotFoundException{
+        User user = findUserByEmail(userAuthentication.getEmail());
+
+        String passwordEncodedDb = user.getPassword();
+        PasswordService.validatePasswordLogin(userAuthentication.getPassword(), passwordEncodedDb);
+        return user;
     }
 }
