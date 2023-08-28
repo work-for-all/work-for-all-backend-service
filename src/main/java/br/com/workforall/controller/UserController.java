@@ -2,7 +2,6 @@ package br.com.workforall.controller;
 
 import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.exception.RegisterLoginException;
-import br.com.workforall.model.Company;
 import br.com.workforall.model.User;
 import br.com.workforall.model.auth.UserAuthentication;
 import br.com.workforall.model.dto.UserDto;

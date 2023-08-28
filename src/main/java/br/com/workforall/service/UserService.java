@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,5 +67,21 @@ public class UserService {
         String passwordEncodedDb = user.getPassword();
         PasswordService.validatePasswordLogin(userAuthentication.getPassword(), passwordEncodedDb);
         return user;
+    }
+
+    public void proccessUserAddJob(String idJob, String idUser){
+        User user = findUser(idUser);
+
+        List<String> listJobs;
+
+        if(user.getJobs() == null){
+            listJobs = new ArrayList<>();
+        }else{
+            listJobs = user.getJobs();
+        }
+        listJobs.add(idJob);
+        user.setJobs(listJobs);
+
+        userRepository.save(user);
     }
 }
