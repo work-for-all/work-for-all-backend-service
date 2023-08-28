@@ -2,9 +2,11 @@ package br.com.workforall.service;
 
 import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.exception.RegisterLoginException;
+import br.com.workforall.model.Job;
 import br.com.workforall.model.User;
 import br.com.workforall.model.auth.UserAuthentication;
 import br.com.workforall.model.dto.UserDto;
+import br.com.workforall.repository.JobRepository;
 import br.com.workforall.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JobRepository jobRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -83,5 +88,21 @@ public class UserService {
         user.setJobs(listJobs);
 
         userRepository.save(user);
+    }
+
+    public List<Job> findJobsForUser(String idUser) {
+        User user = findUser(idUser);
+
+        if(user.getJobs() == null){
+            return null;
+        }
+
+        List<Job> jobList = new ArrayList<>();
+
+        for(String idJob : user.getJobs()){
+            Job job = jobRepository.findById(idJob).get();
+            jobList.add(job);
+        }
+        return jobList;
     }
 }

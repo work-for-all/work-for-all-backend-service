@@ -2,6 +2,7 @@ package br.com.workforall.controller;
 
 import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.exception.RegisterLoginException;
+import br.com.workforall.model.Job;
 import br.com.workforall.model.User;
 import br.com.workforall.model.auth.UserAuthentication;
 import br.com.workforall.model.dto.UserDto;
@@ -32,6 +33,16 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(userService.findUser(idUser));
         }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não cadastrado!");
+        }
+    }
+
+    @GetMapping("/jobs/{idUser}")
+    public ResponseEntity<?> getJobsForUser(@PathVariable String idUser){
+        try {
+            List<Job> jobList = userService.findJobsForUser(idUser);
+            return ResponseEntity.status(HttpStatus.OK).body(jobList);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
