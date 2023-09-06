@@ -46,6 +46,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/validate-user-in-job")
+    public ResponseEntity<?> validateUserInJob(@RequestParam String user, @RequestParam String job) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.isUserInJob(user, job));
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
     @GetMapping("/list")
     public List<User> getUsers(){
         return userService.findAllUsers();

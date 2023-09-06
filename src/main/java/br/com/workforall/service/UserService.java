@@ -93,9 +93,8 @@ public class UserService {
     public List<Job> findJobsForUser(String idUser) {
         User user = findUser(idUser);
 
-        if(user.getJobs() == null){
+        if(user.getJobs() == null)
             return null;
-        }
 
         List<Job> jobList = new ArrayList<>();
 
@@ -104,5 +103,17 @@ public class UserService {
             jobList.add(job);
         }
         return jobList;
+    }
+
+    public boolean isUserInJob(String idUser, String job) {
+        User user = findUser(idUser);
+
+        if(user.getJobs() == null)
+            return false;
+
+        for(String idJob : user.getJobs())
+            if(job.equals(idJob))
+                return true;
+        return false;
     }
 }
