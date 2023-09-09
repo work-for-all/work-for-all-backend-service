@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface JobRepository extends MongoRepository<Job, String> {
     List<Job> findByCnpj(String cnpj);
+
+    List<Object> findByTitleStartingWith(String title);
 }

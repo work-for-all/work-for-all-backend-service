@@ -93,4 +93,9 @@ public class JobController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @GetMapping
+    public ResponseEntity<?> getJobsByTitle(@RequestParam String search) {
+        return ResponseEntity.status(HttpStatus.OK).body(jobService.findJobOrCompanyBySearch(search));
+    }
 }

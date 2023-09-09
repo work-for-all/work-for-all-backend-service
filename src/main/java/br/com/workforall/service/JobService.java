@@ -4,6 +4,7 @@ import br.com.workforall.exception.JobBadRequestException;
 import br.com.workforall.model.Job;
 import br.com.workforall.model.dto.JobDto;
 import br.com.workforall.model.dto.JobUserDto;
+import br.com.workforall.repository.CompanyRepository;
 import br.com.workforall.repository.JobRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class JobService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -87,5 +91,14 @@ public class JobService {
 
     public List<Job> findAllJobs(){
         return jobRepository.findAll();
+    }
+
+    public List<Object> findJobOrCompanyBySearch(String search){
+        List<Object> jobList = jobRepository.findByTitleStartingWith(search);
+
+        if(jobList.isEmpty())
+            jobList = companyRepository.findByNameStartingWith(search);
+
+        return jobList;
     }
 }
