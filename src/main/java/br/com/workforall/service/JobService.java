@@ -93,7 +93,9 @@ public class JobService {
         return jobRepository.findAll();
     }
 
-    public List<Object> findJobOrCompanyBySearch(String search){
+    public List<Object> findJobOrCompanyByParameters(String search, Boolean immmigrants, Boolean fiftyYearsOrMore,
+                                                     Boolean deficient, Boolean transsexual){
+        //TODO: fazer consulta por itens de vaga afirmativa
         List<Object> jobList = jobRepository.findByTitleStartingWith(search);
 
         if(jobList.isEmpty())

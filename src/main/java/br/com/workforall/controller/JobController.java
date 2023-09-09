@@ -95,7 +95,13 @@ public class JobController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getJobsByTitle(@RequestParam String search) {
-        return ResponseEntity.status(HttpStatus.OK).body(jobService.findJobOrCompanyBySearch(search));
+    public ResponseEntity<?> getJobsOrCompany(@RequestParam String search,
+                                              @RequestParam Boolean immmigrants,
+                                              @RequestParam Boolean fiftyYearsOrMore,
+                                              @RequestParam Boolean deficient,
+                                              @RequestParam Boolean transsexual) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                jobService.findJobOrCompanyByParameters(search, immmigrants, fiftyYearsOrMore, deficient, transsexual)
+        );
     }
 }
