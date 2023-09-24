@@ -93,15 +93,4 @@ public class JobController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
-    @GetMapping
-    public ResponseEntity<?> getJobsOrCompany(@RequestParam String search,
-                                              @RequestParam Boolean immmigrants,
-                                              @RequestParam Boolean fiftyYearsOrMore,
-                                              @RequestParam Boolean deficient,
-                                              @RequestParam Boolean transsexual) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                jobService.findJobOrCompanyByParameters(search, immmigrants, fiftyYearsOrMore, deficient, transsexual)
-        );
-    }
 }

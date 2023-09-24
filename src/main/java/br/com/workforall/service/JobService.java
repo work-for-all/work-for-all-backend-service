@@ -4,7 +4,6 @@ import br.com.workforall.exception.JobBadRequestException;
 import br.com.workforall.model.Job;
 import br.com.workforall.model.dto.JobDto;
 import br.com.workforall.model.dto.JobUserDto;
-import br.com.workforall.repository.CompanyRepository;
 import br.com.workforall.repository.JobRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,6 @@ public class JobService {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private CompanyRepository companyRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -91,16 +87,5 @@ public class JobService {
 
     public List<Job> findAllJobs(){
         return jobRepository.findAll();
-    }
-
-    public List<Object> findJobOrCompanyByParameters(String search, Boolean immmigrants, Boolean fiftyYearsOrMore,
-                                                     Boolean deficient, Boolean transsexual){
-        //TODO: fazer consulta por itens de vaga afirmativa
-        List<Object> jobList = jobRepository.findByTitleStartingWith(search);
-
-        if(jobList.isEmpty())
-            jobList = companyRepository.findByNameStartingWith(search);
-
-        return jobList;
     }
 }
