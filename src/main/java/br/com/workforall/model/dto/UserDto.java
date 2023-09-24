@@ -10,5 +10,5 @@ public class UserDto {
 
     String password;
 
-    String course;
+    String name;
 }

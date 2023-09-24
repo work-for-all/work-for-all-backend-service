@@ -40,7 +40,5 @@ public class User {
 
     String email;
 
-    String course;
-
     List<String> jobs;
 }
