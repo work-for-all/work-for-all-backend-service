@@ -16,8 +16,7 @@ public class SearchService {
     @Autowired
     private JobRepository jobRepository;
 
-    public List<Object> findJobOrCompanyByParameters(String search, Boolean immmigrants, Boolean fiftyYearsOrMore,
-                                                     Boolean deficient, Boolean transsexual){
+    public List<Object> findJobOrCompanyByParameters(String search){
         //TODO: fazer consulta por itens de vaga afirmativa
         List<Object> jobList = jobRepository.findByTitleStartingWith(search);
 

@@ -18,14 +18,10 @@ public class SearchController {
     private SearchService searchService;
 
     @GetMapping
-    public ResponseEntity<?> getJobsOrCompany(@RequestParam String parameter,
-                                              @RequestParam Boolean immmigrants,
-                                              @RequestParam Boolean fiftyYearsOrMore,
-                                              @RequestParam Boolean deficient,
-                                              @RequestParam Boolean transsexual) {
+    public ResponseEntity<?> getJobsOrCompany(@RequestParam String parameter) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 searchService.findJobOrCompanyByParameters(
-                        parameter, immmigrants, fiftyYearsOrMore, deficient, transsexual
+                        parameter
                 )
         );
     }
