@@ -17,4 +17,16 @@ public interface JobRepository extends MongoRepository<Job, String> {
             Boolean transsexual,
             Boolean blackIndigenous
     );
+
+    List<Object> findByWoman(Boolean woman);
+
+    List<Object> findByFiftyYears(Boolean fiftyYears);
+
+    List<Object> findByDeficient(Boolean deficient);
+
+    List<Object> findByBlackIndigenous(Boolean fiftyYears);
+
+    List<Object> findByTranssexual(Boolean transsexual);
+
+    List<Object> findByImmigrants(Boolean transsexual);
 }

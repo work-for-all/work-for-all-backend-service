@@ -34,6 +34,36 @@ public class JobController {
         return ResponseEntity.status(HttpStatus.OK).body(jobService.findAllJobs().size());
     }
 
+    @GetMapping("/quantity/womans")
+    public ResponseEntity<?> getQuantityWomans() {
+        return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByWoman(true).size());
+    }
+
+    @GetMapping("/quantity/fifty_years")
+    public ResponseEntity<?> getQuantityFiftyYearsOrMore() {
+        return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByFiftyYears(true).size());
+    }
+
+    @GetMapping("/quantity/deficient")
+    public ResponseEntity<?> getDeficient() {
+        return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByDeficient(true).size());
+    }
+
+    @GetMapping("/quantity/transsexual")
+    public ResponseEntity<?> getTranssexual() {
+        return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByTranssexual(true).size());
+    }
+
+    @GetMapping("/quantity/black_indigenous")
+    public ResponseEntity<?> getBlackOrIndigenous() {
+        return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByBlackIndigenous(true).size());
+    }
+
+    @GetMapping("/quantity/immigrants")
+    public ResponseEntity<?> getImmigrants() {
+        return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByImmigrants(true).size());
+    }
+
     @GetMapping("/list")
     public ResponseEntity<?> getJobs() {
         return ResponseEntity.status(HttpStatus.OK).body(jobService.findAllJobs());
