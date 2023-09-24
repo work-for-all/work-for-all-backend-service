@@ -43,12 +43,12 @@ public class JobDto {
     boolean transsexual;
 
     @JsonProperty("black_or_indigenous")
-    boolean blackOrIndigenous;
+    boolean blackIndigenous;
 
     boolean deficient;
 
     @JsonProperty("fifty_years_or_more")
-    boolean fiftyYearsOrMore;
+    boolean fiftyYears;
 
     boolean immigrants;
 }

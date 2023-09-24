@@ -16,12 +16,17 @@ public class SearchService {
     @Autowired
     private JobRepository jobRepository;
 
-    public List<Object> findJobOrCompanyByParameters(String search){
+    public List<Object> findJobOrCompanyByParameters(String parameter, Boolean immmigrants,
+                                                     Boolean fiftyYears, Boolean deficient,
+                                                     Boolean transsexual, Boolean blackOrIndigenous,
+                                                     Boolean woman){
         //TODO: fazer consulta por itens de vaga afirmativa
-        List<Object> jobList = jobRepository.findByTitleStartingWith(search);
+        List<Object> jobList = jobRepository
+                .findByTitleStartingWithAndWomanAndImmigrantsAndFiftyYearsAndDeficientAndTranssexualAndBlackIndigenous(
+                        parameter, woman, immmigrants, fiftyYears, deficient, transsexual, blackOrIndigenous);
 
         if(jobList.isEmpty())
-            jobList = companyRepository.findByNameStartingWith(search);
+            jobList = companyRepository.findByNameStartingWith(parameter);
 
         return jobList;
     }

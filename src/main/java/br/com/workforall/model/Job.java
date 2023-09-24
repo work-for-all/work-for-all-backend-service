@@ -59,14 +59,14 @@ public class Job {
     boolean transsexual;
 
     @JsonProperty("black_or_indigenous")
-    @Field("black_or_indigenous")
-    boolean blackOrIndigenous;
+    @Field("black_indigenous")
+    boolean blackIndigenous;
 
     boolean deficient;
 
     @JsonProperty("fifty_years_or_more")
-    @Field("fifty_years_or_more")
-    boolean fiftyYearsOrMore;
+    @Field("fifty_years")
+    boolean fiftyYears;
 
     boolean immigrants;
 }
