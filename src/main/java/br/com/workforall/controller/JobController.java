@@ -59,11 +59,6 @@ public class JobController {
         return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByBlackIndigenous(true).size());
     }
 
-    @GetMapping("/quantity/immigrants")
-    public ResponseEntity<?> getImmigrants() {
-        return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByImmigrants(true).size());
-    }
-
     @GetMapping("/list")
     public ResponseEntity<?> getJobs() {
         return ResponseEntity.status(HttpStatus.OK).body(jobService.findAllJobs());

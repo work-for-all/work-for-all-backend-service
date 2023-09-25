@@ -49,6 +49,4 @@ public class JobDto {
 
     @JsonProperty("fifty_years_or_more")
     boolean fiftyYears;
-
-    boolean immigrants;
 }

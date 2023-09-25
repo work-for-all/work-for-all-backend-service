@@ -23,17 +23,11 @@ public class SearchService {
     @Autowired
     private JobRepository jobRepository;
 
-    public List<Job> findJob(String title, Boolean immigrants,
-                             Boolean fiftyYears, Boolean deficient,
-                             Boolean transsexual, Boolean blackIndigenous,
-                             Boolean woman){
+    public List<Job> findJob(String title, Boolean fiftyYears, Boolean deficient,
+                             Boolean transsexual, Boolean blackIndigenous, Boolean woman){
 
         Query query = new Query();
         query.addCriteria(Criteria.where("title").regex("^" + title));
-
-        if (immigrants) {
-            query.addCriteria(Criteria.where("immigrants").is(true));
-        }
 
         if (fiftyYears) {
             query.addCriteria(Criteria.where("fiftyYears").is(true));

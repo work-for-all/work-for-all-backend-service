@@ -19,7 +19,6 @@ public class SearchController {
 
     @GetMapping
     public ResponseEntity<?> getJobsOrCompany(@RequestParam String title,
-                                              @RequestParam Boolean immigrants,
                                               @RequestParam Boolean fiftyYears,
                                               @RequestParam Boolean deficient,
                                               @RequestParam Boolean transsexual,
@@ -27,7 +26,7 @@ public class SearchController {
                                               @RequestParam Boolean woman) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 searchService.findJob(
-                        title, immigrants,
+                        title,
                         fiftyYears, deficient,
                         transsexual, blackIndigenous, woman
                 )

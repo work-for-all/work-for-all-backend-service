@@ -67,6 +67,4 @@ public class Job {
     @JsonProperty("fifty_years_or_more")
     @Field("fifty_years")
     boolean fiftyYears;
-
-    boolean immigrants;
 }
