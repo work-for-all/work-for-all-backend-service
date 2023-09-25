@@ -1,8 +1,12 @@
 package br.com.workforall.service;
 
+import br.com.workforall.model.Job;
 import br.com.workforall.repository.CompanyRepository;
 import br.com.workforall.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,20 +18,43 @@ public class SearchService {
     private CompanyRepository companyRepository;
 
     @Autowired
+    private MongoTemplate mongoTemplate;
+
+    @Autowired
     private JobRepository jobRepository;
 
-    public List<Object> findJobOrCompanyByParameters(String parameter, Boolean immmigrants,
-                                                     Boolean fiftyYears, Boolean deficient,
-                                                     Boolean transsexual, Boolean blackOrIndigenous,
-                                                     Boolean woman){
-        //TODO: fazer consulta por itens de vaga afirmativa
-        List<Object> jobList = jobRepository
-                .findByTitleStartingWithAndWomanAndImmigrantsAndFiftyYearsAndDeficientAndTranssexualAndBlackIndigenous(
-                        parameter, woman, immmigrants, fiftyYears, deficient, transsexual, blackOrIndigenous);
+    public List<Job> findJob(String title, Boolean immigrants,
+                             Boolean fiftyYears, Boolean deficient,
+                             Boolean transsexual, Boolean blackIndigenous,
+                             Boolean woman){
 
-        if(jobList.isEmpty())
-            jobList = companyRepository.findByNameStartingWith(parameter);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("title").regex("^" + title));
 
-        return jobList;
+        if (immigrants) {
+            query.addCriteria(Criteria.where("immigrants").is(true));
+        }
+
+        if (fiftyYears) {
+            query.addCriteria(Criteria.where("fiftyYears").is(true));
+        }
+
+        if (deficient) {
+            query.addCriteria(Criteria.where("deficient").is(true));
+        }
+
+        if (transsexual) {
+            query.addCriteria(Criteria.where("transsexual").is(true));
+        }
+
+        if (woman) {
+            query.addCriteria(Criteria.where("woman").is(true));
+        }
+
+        if (blackIndigenous) {
+            query.addCriteria(Criteria.where("blackIndigenous").is(true));
+        }
+
+        return mongoTemplate.find(query, Job.class);
     }
 }
