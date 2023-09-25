@@ -54,7 +54,7 @@ public class Job {
 
     String local;
 
-    boolean woman;
+    boolean neuro;
 
     boolean transsexual;
 

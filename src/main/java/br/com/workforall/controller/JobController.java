@@ -34,9 +34,9 @@ public class JobController {
         return ResponseEntity.status(HttpStatus.OK).body(jobService.findAllJobs().size());
     }
 
-    @GetMapping("/quantity/womans")
-    public ResponseEntity<?> getQuantityWomans() {
-        return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByWoman(true).size());
+    @GetMapping("/quantity/neuros")
+    public ResponseEntity<?> getQuantityneuros() {
+        return ResponseEntity.status(HttpStatus.OK).body(jobRepository.findByneuro(true).size());
     }
 
     @GetMapping("/quantity/fifty_years")

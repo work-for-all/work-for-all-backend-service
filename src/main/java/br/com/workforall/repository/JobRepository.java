@@ -8,7 +8,7 @@ import java.util.List;
 public interface JobRepository extends MongoRepository<Job, String> {
     List<Job> findByCnpj(String cnpj);
 
-    List<Object> findByWoman(Boolean woman);
+    List<Object> findByneuro(Boolean neuro);
 
     List<Object> findByFiftyYears(Boolean fiftyYears);
 

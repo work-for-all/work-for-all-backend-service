@@ -23,12 +23,11 @@ public class SearchController {
                                               @RequestParam Boolean deficient,
                                               @RequestParam Boolean transsexual,
                                               @RequestParam Boolean blackIndigenous,
-                                              @RequestParam Boolean woman) {
+                                              @RequestParam Boolean neuro) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 searchService.findJob(
-                        title,
-                        fiftyYears, deficient,
-                        transsexual, blackIndigenous, woman
+                        title, fiftyYears, deficient,
+                        transsexual, blackIndigenous, neuro
                 )
         );
     }
