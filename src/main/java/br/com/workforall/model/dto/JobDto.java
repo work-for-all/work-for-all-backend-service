@@ -38,7 +38,7 @@ public class JobDto {
 
     String local;
 
-    boolean neuro;
+    boolean woman;
 
     boolean transsexual;
 

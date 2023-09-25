@@ -24,7 +24,7 @@ public class SearchService {
     private JobRepository jobRepository;
 
     public List<Job> findJob(String title, Boolean fiftyYears, Boolean deficient,
-                             Boolean transsexual, Boolean blackIndigenous, Boolean neuro){
+                             Boolean transsexual, Boolean blackIndigenous, Boolean woman){
 
         Query query = new Query();
         query.addCriteria(Criteria.where("title").regex("^" + title));
@@ -41,8 +41,8 @@ public class SearchService {
             query.addCriteria(Criteria.where("transsexual").is(true));
         }
 
-        if (neuro) {
-            query.addCriteria(Criteria.where("neuro").is(true));
+        if (woman) {
+            query.addCriteria(Criteria.where("woman").is(true));
         }
 
         if (blackIndigenous) {
