@@ -26,19 +26,13 @@ public class User {
 
     String ethnicity;
 
-    Boolean disability;
-
-    @JsonProperty("disability_description")
-    String disabilityDescription;
-
     String gender;
-
-    @JsonProperty("sexual_orientation")
-    String sexualOrientation;
 
     String password;
 
     String email;
+
+    boolean deficient;
 
     List<String> jobs;
 }
