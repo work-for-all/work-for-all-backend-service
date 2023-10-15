@@ -7,4 +7,14 @@ import java.util.List;
 
 public interface JobRepository extends MongoRepository<Job, String> {
     List<Job> findByCnpj(String cnpj);
+
+    List<Object> findBywoman(Boolean woman);
+
+    List<Object> findByFiftyYears(Boolean fiftyYears);
+
+    List<Object> findByDeficient(Boolean deficient);
+
+    List<Object> findByBlackIndigenous(Boolean fiftyYears);
+
+    List<Object> findByTranssexual(Boolean transsexual);
 }

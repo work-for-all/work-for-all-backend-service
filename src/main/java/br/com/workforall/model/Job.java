@@ -51,4 +51,20 @@ public class Job {
     boolean status;
 
     List<String> candidates;
+
+    String local;
+
+    boolean woman;
+
+    boolean transsexual;
+
+    @JsonProperty("black_or_indigenous")
+    @Field("black_indigenous")
+    boolean blackIndigenous;
+
+    boolean deficient;
+
+    @JsonProperty("fifty_years_or_more")
+    @Field("fifty_years")
+    boolean fiftyYears;
 }

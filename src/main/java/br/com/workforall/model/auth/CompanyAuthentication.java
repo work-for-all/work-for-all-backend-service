@@ -1,4 +1,4 @@
-package br.com.workforall.model;
+package br.com.workforall.model.auth;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.br.CNPJ;

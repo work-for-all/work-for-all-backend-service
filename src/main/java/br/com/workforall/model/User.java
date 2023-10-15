@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Document(collection = "User")
@@ -25,19 +26,13 @@ public class User {
 
     String ethnicity;
 
-    Boolean disability;
-
-    @JsonProperty("disability_description")
-    String disabilityDescription;
-
     String gender;
-
-    @JsonProperty("sexual_orientation")
-    String sexualOrientation;
 
     String password;
 
     String email;
 
-    String course;
+    boolean deficient;
+
+    List<String> jobs;
 }
