@@ -1,5 +1,6 @@
 package br.com.workforall.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,7 @@ public class UserDto {
     String cpf;
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "ddMMyyyy")
     @JsonProperty("birth_date")
     LocalDate birthDate;
 

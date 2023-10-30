@@ -70,6 +70,16 @@ public class UserController {
         }
     }
 
+//    @PutMapping("/{idUser}")
+//    public ResponseEntity<?> putUser(String idUser){
+//        try {
+////            User user = userService.processUserRegister(userDto);
+////            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+//        }catch (RegisterLoginException e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
+
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody @Valid UserAuthentication userAuthentication) {
         try {
