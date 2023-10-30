@@ -1,5 +1,6 @@
 package br.com.workforall.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -19,6 +20,7 @@ public class User {
     String cpf;
 
     @JsonProperty("birth_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     LocalDate birthDate;
 
     @JsonProperty("marital_status")
