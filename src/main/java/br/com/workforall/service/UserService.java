@@ -44,6 +44,12 @@ public class UserService {
         return user;
     }
 
+    public User processUserUpdate(String idUser, UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
+        user.setId(idUser);
+        return userRepository.save(user);
+    }
+
     public List<User> findAllUsers(){
         return userRepository.findAll();
     }
