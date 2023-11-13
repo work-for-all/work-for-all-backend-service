@@ -3,12 +3,15 @@ package br.com.workforall.controller;
 import br.com.workforall.exception.EntityNotFoundException;
 import br.com.workforall.exception.RegisterLoginException;
 import br.com.workforall.model.Job;
+import br.com.workforall.model.ProfesionalProfile;
 import br.com.workforall.model.User;
 import br.com.workforall.model.auth.UserAuthentication;
-import br.com.workforall.model.dto.JobDto;
+import br.com.workforall.model.dto.ProfesionalProfileDto;
 import br.com.workforall.model.dto.UserDto;
+import br.com.workforall.repository.ProfesionalProfileRepository;
 import br.com.workforall.service.UserService;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private ProfesionalProfileRepository profesionalProfileRepository;
 
     @GetMapping("/quantity")
     public ResponseEntity<?> getQuantityUser(){
@@ -86,6 +95,24 @@ public class UserController {
         try {
             User user = userService.proccessUserLogin(userAuthentication);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/profile")
+    public ResponseEntity<?> registerProfesionalProfile(@RequestBody @Valid ProfesionalProfileDto profesionalProfileDto) {
+        try {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(profesionalProfileRepository.save(modelMapper.map(profesionalProfileDto, ProfesionalProfile.class)));
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/profile/{idUser}")
+    public ResponseEntity<?> getProfesionalProfile(@PathVariable String idUser) {
+        try {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(profesionalProfileRepository.findByIdUser(idUser));
         }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
