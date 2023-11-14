@@ -1,7 +1,10 @@
 package br.com.workforall.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
+import java.time.LocalDate;
 
 @Data
 public class ProfesionalProfileDto {
@@ -19,10 +22,11 @@ public class ProfesionalProfileDto {
     String courseLevel;
 
     @JsonProperty("start_date_course")
-    String startDateCourse;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "ddMMyyyy")
+    LocalDate startDateCourse;
 
-    @JsonProperty("end_date_course")
-    String endDateCourse;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "ddMMyyyy")
+    LocalDate endDateCourse;
 
     @JsonProperty("company_name")
     String companyName;
@@ -31,8 +35,10 @@ public class ProfesionalProfileDto {
     String namePosition;
 
     @JsonProperty("start_date_position")
-    String startDatePosition;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "ddMMyyyy")
+    LocalDate startDatePosition;
 
     @JsonProperty("end_date_position")
-    String endDatePosition;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "ddMMyyyy")
+    LocalDate endDatePosition;
 }
