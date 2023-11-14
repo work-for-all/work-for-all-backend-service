@@ -117,4 +117,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @PutMapping("/profile/{idProfile}")
+    public ResponseEntity<?> putProfesionalProfile(@RequestBody @Valid ProfesionalProfileDto profesionalProfileDto, @PathVariable String idProfile) {
+        try {
+            ProfesionalProfile profesionalProfile = modelMapper.map(profesionalProfileDto, ProfesionalProfile.class);
+            profesionalProfile.setId(idProfile);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(profesionalProfileRepository.save(profesionalProfile));
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
