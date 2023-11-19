@@ -2,6 +2,7 @@ package br.com.workforall.controller;
 
 import br.com.workforall.exception.JobBadRequestException;
 import br.com.workforall.model.Job;
+import br.com.workforall.model.User;
 import br.com.workforall.model.dto.JobDto;
 import br.com.workforall.model.dto.JobUserDto;
 import br.com.workforall.repository.JobRepository;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,6 +117,25 @@ public class JobController {
             userService.proccessUserAddJob(idJob, jobUserDto.getIdUser());
             return ResponseEntity.status(HttpStatus.CREATED).body(job);
         }catch (JobBadRequestException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/candidates/{idJob}")
+    public ResponseEntity<?> getCandidatesInJobs(@PathVariable String idJob){
+        try {
+            Optional<Job> job = jobRepository.findById(idJob);
+            List<String> idCandidates = job.get().getCandidates();
+
+            ArrayList<User> usersList = new ArrayList<>();
+            if(idCandidates != null){
+                for(String idCandidate: idCandidates){
+                    userService.findUser(idCandidate);
+                    usersList.add(userService.findUser(idCandidate));
+                }
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(usersList);
+        }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
