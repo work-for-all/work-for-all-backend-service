@@ -3,10 +3,12 @@ package br.com.workforall.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "SelectionStage")
+@CompoundIndex(name = "user_job_index", def = "{'idUser' : 1, 'idJob' : 1}", unique = true)
 public class SelectionStage {
     @Id
     String id;
@@ -18,7 +20,7 @@ public class SelectionStage {
     String idJob;
 
     @JsonProperty("selection_indicator")
-    boolean selectionIndicator;
+    Boolean selectionIndicator;
 
     @JsonProperty("test_description")
     String testDescription;
@@ -27,5 +29,5 @@ public class SelectionStage {
     String interviewDescription;
 
     @JsonProperty("result_indicator")
-    boolean resultIndicator;
+    Boolean resultIndicator;
 }

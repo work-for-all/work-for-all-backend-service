@@ -8,6 +8,4 @@ import java.util.Optional;
 
 public interface CompanyRepository extends MongoRepository<Company, String> {
     Optional<Company> findByCnpj(String cnpj);
-
-    List<Object> findByNameStartingWith(String name);
 }
