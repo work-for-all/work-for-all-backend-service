@@ -12,7 +12,7 @@ public class SelectionStageDto {
     String idJob;
 
     @JsonProperty("selection_indicator")
-    boolean selectionIndicator;
+    Boolean selectionIndicator;
 
     @JsonProperty("test_description")
     String testDescription;
@@ -21,5 +21,5 @@ public class SelectionStageDto {
     String interviewDescription;
 
     @JsonProperty("result_indicator")
-    boolean resultIndicator;
+    Boolean resultIndicator;
 }

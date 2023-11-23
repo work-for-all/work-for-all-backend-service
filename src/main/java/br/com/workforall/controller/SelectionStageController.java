@@ -3,6 +3,7 @@ package br.com.workforall.controller;
 
 import br.com.workforall.exception.JobBadRequestException;
 import br.com.workforall.model.SelectionStage;
+import br.com.workforall.model.dto.JobDto;
 import br.com.workforall.model.dto.SelectionStageDto;
 import br.com.workforall.repository.SelectionStageRepository;
 import jakarta.validation.Valid;
@@ -46,6 +47,23 @@ public class SelectionStageController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(selectionStageRepository.findByIdUserAndIdJob(idUser, idJob));
         }catch (JobBadRequestException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{idSelectionStage}")
+    public ResponseEntity<?> putSelectionStage(@PathVariable String idSelectionStage, @RequestBody @Valid SelectionStageDto selectionStageDto) {
+        try {
+            SelectionStage selectionStage = new SelectionStage();
+            selectionStage.setId(idSelectionStage);
+            selectionStage.setIdJob(selectionStageDto.getIdJob());
+            selectionStage.setIdUser(selectionStageDto.getIdUser());
+            selectionStage.setInterviewDescription(selectionStageDto.getInterviewDescription());
+            selectionStage.setTestDescription(selectionStageDto.getTestDescription());
+            selectionStage.setResultIndicator(selectionStageDto.getResultIndicator());
+            selectionStage.setSelectionIndicator(selectionStageDto.getSelectionIndicator());
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(selectionStageRepository.save(selectionStage));        }catch (JobBadRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
